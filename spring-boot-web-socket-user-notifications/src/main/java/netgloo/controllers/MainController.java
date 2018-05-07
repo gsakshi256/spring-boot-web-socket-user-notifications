@@ -1,15 +1,16 @@
 package netgloo.controllers;
 
-import netgloo.Notification;
-import netgloo.services.NotificationService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import netgloo.Notification;
+import netgloo.services.NotificationService;
 
 @Controller
 public class MainController {
@@ -40,14 +41,14 @@ public class MainController {
    */
   @RequestMapping(value = "/some-action", method = RequestMethod.POST)
   @ResponseBody
-  public ResponseEntity<?> someAction() {
+  public ResponseEntity<?> someAction(@RequestBody Notification notification) {
 
     // Do an action here
     // ...
     
     // Send the notification to "UserA" (by username)
     notificationService.notify(
-      new Notification("hello"), // notification object
+      new Notification(notification.getContent()), // notification object
       "UserA"                    // username
     );
     
