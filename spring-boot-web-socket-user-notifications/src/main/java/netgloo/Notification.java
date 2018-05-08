@@ -8,7 +8,11 @@ public class Notification {
     this.message = content;
   }
 
-  public String getContent() {
+  public Notification() {
+	// TODO Auto-generated constructor stub
+}
+
+public String getContent() {
     return message;
   }
 
