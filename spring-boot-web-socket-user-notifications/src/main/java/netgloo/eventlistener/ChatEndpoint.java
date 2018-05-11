@@ -25,7 +25,7 @@ public class ChatEndpoint {
 	public void open(final Session session) {
 
 	    session.getUserProperties().put("user",session.getId());
-	    logger.info("session id"+session.getId());
+	    System.out.println("session id "+session.getId());
 	    Queue<Notification> userMsgs = userMessageBuffer.get(session.getId());
 	    Notification sendChat = new Notification();
 

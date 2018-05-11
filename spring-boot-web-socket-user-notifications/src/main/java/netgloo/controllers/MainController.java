@@ -43,7 +43,8 @@ public class MainController {
   @RequestMapping(value = "/some-action", method = RequestMethod.POST)
   @ResponseBody
   public ResponseEntity<?> someAction(@RequestBody Notification notification) {
-
+   
+	  
     // Do an action here
     // ...
     // Send the notification to "UserA" (by username)
