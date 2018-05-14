@@ -28,6 +28,7 @@
       function sendAction(event) {
         event.preventDefault();
         var message = $('#message').val();
+        $('#message').val("");
         console.log(JSON.stringify(message));
         $.ajax({
           url: "/some-action",
@@ -47,6 +48,7 @@
         
         // Bind the on-click event for the button element.
         $("#do-some-action").on("click", sendAction);
+
         
       });
 

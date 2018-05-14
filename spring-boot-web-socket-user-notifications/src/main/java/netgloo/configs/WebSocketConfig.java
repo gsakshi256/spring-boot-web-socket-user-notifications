@@ -1,8 +1,6 @@
 package netgloo.configs;
 
-import org.apache.activemq.broker.BrokerService;
-import org.apache.activemq.broker.jmx.ManagementContext;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 // import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -13,6 +11,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 /**
  * Enable and configure Stomp over WebSocket.
  */
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
@@ -30,20 +29,19 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     
     return;
   }
- 
-//  /**
-//   * Configure the message broker.
-//   */
-  @Bean(initMethod = "start", destroyMethod = "stop")
-  public BrokerService broker() throws Exception {
-      final BrokerService broker = new BrokerService();
-      broker.addConnector("stomp://localhost:61613");
+  @Override
+  public void configureMessageBroker(MessageBrokerRegistry registry) {
+      
+      registry.setApplicationDestinationPrefixes("/app");
 
-      broker.setPersistent(false);
-      final ManagementContext managementContext = new ManagementContext();
-      managementContext.setCreateConnector(true);
-      broker.setManagementContext(managementContext);
+      //   Use this for enabling a Full featured broker like RabbitMQ
+      registry.enableStompBrokerRelay("/queue/notify")
+      .setRelayHost("localhost")
+      .setRelayPort(61613)
+      .setClientLogin("guest")
+      .setClientPasscode("guest");
 
-      return broker;
+      
   }
+
 } // class WebSocketConfig
