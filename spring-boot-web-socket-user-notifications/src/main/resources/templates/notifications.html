@@ -29,19 +29,9 @@
 			var stompClient = Stomp.over(socket);
 			// Subscribe the '/notify' channell
 			stompClient.connect({}, function(frame) {
-				//console.log("connected, session id: " + socket.sessionId);
+				console.log("notification hmtl ");
 				 
-				 stompClient.open = function() {
-						setConnected(true);
-						console.log('open method call .');
-					};
 				stompClient.subscribe('/user/queue/notify', function(
-						notification) {
-					// Call the notify function when receive a notification
-					notify(JSON.parse(notification.body).content);
-
-				});
-				stompClient.subscribe('/queue/backup', function(
 						notification) {
 					// Call the notify function when receive a notification
 					notify(JSON.parse(notification.body).content);
