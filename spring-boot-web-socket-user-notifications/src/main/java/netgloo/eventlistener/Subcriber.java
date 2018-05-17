@@ -10,6 +10,7 @@ public class Subcriber {
 
 	@RabbitListener(queues = "${jsa.rabbitmq.queue}")
 	public void recievedMessage(Notification notification) {
+		
 		System.out.println("Recieved Message: " + notification.getContent());
 	}
 
