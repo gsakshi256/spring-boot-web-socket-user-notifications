@@ -1,64 +1,71 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-  <head>
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="sockjs-0.3.4.min.js"></script>
-    <script src="stomp.min.js"></script>
-  </head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="sockjs-0.3.4.min.js"></script>
+<script src="stomp.min.js"></script>
+</head>
 
-  <body>
-    <p th:inline="text">
-      You are logged as: <b>[[${#httpServletRequest.remoteUser}]]</b>
-      (<a href="/logout">logout</a>)
-    </p>
-    <p>
-      Click the button below to perform an action.
-      <br />
-      <strong>UserA</strong> will be notified via web socket.
-    </p>
-    <input id="do-some-action" type="button" value="Click me" />
-     <input type="text" id="message" placeholder="Enter your Message"/>
-    <!-- Javascript functions -->
-    <script>
+<body>
+	<p th:inline="text">
+		You are logged as: <b>[[${#httpServletRequest.remoteUser}]]</b> (<a
+			href="/logout">logout</a>)
+	</p>
+	<p>
+		Click the button below to perform an action. <br /> 
+		<select id="ddbox">
+			<option value="UserA">UserA</option>
+			<option value="UserB">UserB</option>
+			<option value="UserC">UserC</option>
 
-      /**
-       * Send an action to the server.
-       */
-      function sendAction(event) {
-        event.preventDefault();
-        var message = $('#message').val();
-        $('#message').val("");
-        console.log(JSON.stringify(message));
-        $.ajax({
-          url: "/some-action",
-          contentType : "application/json",
-          type: "POST",
-          data: JSON.stringify(message),
-		  success : function(data)
-		  {}
-        });
-        return;
-      } // function sendAction
-      
-      /**
-       * Init operations.
-       */
-      $(document).ready(function() {
-        
-        // Bind the on-click event for the button element.
-        $("#do-some-action").on("click", sendAction);
+		</select> will be notified via web socket.
+	</p>
+	<input id="do-some-action" type="button" value="Click me" />
+	<input type="text" id="message" placeholder="Enter your Message" />
+	<!-- Javascript functions -->
+	<script>
+		/**
+		 * Send an action to the server.
+		 */
+		function sendAction(event) {
+			event.preventDefault();
+			var data = {};
+			 var message = $('#message').val();
+			$('#message').val("");
+			var e = document.getElementById("ddbox");
+			var struser = e.options[e.selectedIndex].text;
+			var data = { 'message': message , 'user': struser};
+			console.log(message);
+			console.log(struser);
+			$.ajax({
+				url : "/some-action",
+				contentType : "application/json",
+				type : "POST",
+				data : JSON.stringify(data),
+				success : function(data) {
+				}
+			});
+			return;
+		} // function sendAction
 
-        
-      });
+		/**
+		 * Init operations.
+		 */
+		$(document).ready(function() {
 
-    </script>
+			// Bind the on-click event for the button element.
+			$("#do-some-action").on("click", sendAction);
 
-  	<br />
-    <hr />
-    Proudly handcrafted by
-    <a href='http://netgloo.com/en'>Netgloo</a>
+		});
+	</script>
 
-  </body>
+	<br />
+	<hr />
+	Proudly handcrafted by
+	<a href='http://netgloo.com/en'>Netgloo</a>
+
+</body>
 
 </html>

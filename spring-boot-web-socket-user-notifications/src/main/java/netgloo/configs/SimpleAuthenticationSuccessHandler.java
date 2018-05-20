@@ -27,7 +27,6 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
 		HttpSession session = arg0.getSession();
 		User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = authUser.getUsername();
-		System.out.println("username" + username);
 		if (username.matches("UserA")) {
 			redirectStrategy.sendRedirect(arg0, arg1, "/notifications");
 		}

@@ -34,7 +34,7 @@ public class ChatEndpoint {
 	        for (int i = 0; i < userMsgs.size(); i++) {
 
 	            sendChat = userMsgs.remove();
-	            System.out.println("size!!!!!! " + sendChat.getContent());
+	            System.out.println("size!!!!!! " + sendChat.getMessage());
 	            try {
 
 	                    session.getBasicRemote().sendObject(sendChat);

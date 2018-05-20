@@ -53,10 +53,13 @@ public class MainController {
 		// Do an action here
 		// ...
 		// Send the notification to "UserA" (by username)
-		publisher.produceMsg(notification.getContent());
-		notificationService.notify(new Notification(notification.getContent()), // notification object
-				"UserA" // username
-		);
+		//publisher.produceMsg(notification.getContent());
+		System.out.println(notification.getMessage());
+		System.out.println(notification.getUser());
+		String username = notification.getUser();
+		notificationService.notify(new Notification(notification.getMessage()), // notification object
+				username // username
+		);	
 		// Return an http 200 status code
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

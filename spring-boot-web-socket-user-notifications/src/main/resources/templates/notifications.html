@@ -34,7 +34,7 @@
 				stompClient.subscribe('/user/queue/notify', function(
 						notification) {
 					// Call the notify function when receive a notification
-					notify(JSON.parse(notification.body).content);
+					notify(JSON.parse(notification.body).message);
 
 				});
 			});
