@@ -25,7 +25,6 @@ public class NotificationService {
    * @param username The username for the user to send notification.
    */
   public void notify(Notification notification, String username) {
-	  System.out.println("notification service");
     messagingTemplate.convertAndSendToUser(
       username, 
       "/queue/notify", 

@@ -1,5 +1,7 @@
 package netgloo.controllers;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import netgloo.Notification;
 import netgloo.eventlistener.Publisher;
+import netgloo.eventlistener.Subcriber;
 import netgloo.eventlistener.WebSocketEventListener;
 import netgloo.services.NotificationService;
 
@@ -23,6 +26,8 @@ public class MainController {
 	Publisher publisher;
 	@Autowired
 	WebSocketEventListener web;
+	@Autowired
+	Subcriber subcriber;
 
 	/**
 	 * GET / -> show the index page.
@@ -44,22 +49,24 @@ public class MainController {
 	 * POST /some-action -> do an actinotifications.htmlon.
 	 * 
 	 * After the action is performed will be notified UserA.
+	 * 
+	 * @throws Exception
+	 * @throws IOException
 	 */
-	
+
 	@RequestMapping(value = "/some-action", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> someAction(@RequestBody Notification notification) {
+	public ResponseEntity<?> someAction(@RequestBody Notification notification) throws IOException, Exception {
 
 		// Do an action here
 		// ...
 		// Send the notification to "UserA" (by username)
-		//publisher.produceMsg(notification.getContent());
-		System.out.println(notification.getMessage());
-		System.out.println(notification.getUser());
+		publisher.produceMsg(notification.getMessage());
 		String username = notification.getUser();
 		notificationService.notify(new Notification(notification.getMessage()), // notification object
 				username // username
-		);	
+		);
+		// subcriber.consumer();
 		// Return an http 200 status code
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
