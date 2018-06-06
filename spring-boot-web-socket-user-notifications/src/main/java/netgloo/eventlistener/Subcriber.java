@@ -21,46 +21,9 @@ public class Subcriber {
 	@Value("${jsa.rabbitmq.queue}")
 	private String queue;
 
-	// @Bean
-	// public ConnectionFactory connectionFactory() {
-	// ConnectionFactory connectionFactory = new ConnectionFactory();
-	// connectionFactory.setHost("localhost");
-	// connectionFactory.setUsername("guest");
-	// connectionFactory.setPassword("guest");
-	// return connectionFactory;
-	// }
-	//
-	// @Bean
-	// RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-	// RabbitTemplate rabbitTemplate = new RabbitTemplate();
-	// rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-	// return rabbitTemplate;
-	// }
-	//
-	// @Bean
-	// public AmqpAdmin amqpAdmin() {
-	// RabbitAdmin rabbitAdmin = new RabbitAdmin(
-	// (org.springframework.amqp.rabbit.connection.ConnectionFactory)
-	// connectionFactory());
-	// return rabbitAdmin;
-	// }
-	//
-	// @Bean
-	// public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
-	// return new Jackson2JsonMessageConverter();
-	// }
-	//
-	// @RabbitListener(queues = "${jsa.rabbitmq.queue}")
-	// public void recievedMessage(Notification notification) throws IOException,
-	// TimeoutException {
-	// // channel.basicConsume(queue, true, null);
-	// System.out.println("Recieved Message: " + notification.getMessage());
-	// }
-
 	@Value("${jsa.rabbitmq.exchange}")
 	private String exchange;
-
-	@RabbitListener(queues = "${jsa.rabbitmq.queue}")
+	//@RabbitListener(queues = "${jsa.rabbitmq.queue}")
 	public void consumer() throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");

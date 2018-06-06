@@ -1,6 +1,7 @@
 package netgloo.eventlistener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.GetResponse;
 import com.rabbitmq.client.MessageProperties;
 
 @Component
@@ -23,20 +25,27 @@ public class Publisher {
 
 	@Value("${jsa.rabbitmq.queue}")
 	private String queue;
-
+ 	private boolean B_ACK = false;
+    public ArrayList<String> ar = new ArrayList<String>();
 	public void produceMsg(String msg) throws IOException, Exception {
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
 		factory.setUsername("guest");
 		factory.setPassword("guest");
-		// System.out.println("before connection " );
+
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
-		// System.out.println("before channel " );
+
 		channel.basicPublish(exchange, "", MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
+		GetResponse response = channel.basicGet(queue, B_ACK);
+		if (response != null) {
+			String body = new String(response.getBody());
+			// do whatever you want to do here
+			System.out.println("body contain "+body);
+		}
 		// Template.convertAndSend(exchange, "", msg);
 		System.out.println("Send msg = " + msg);
-
+		ar.add(msg);
 	}
 
 }

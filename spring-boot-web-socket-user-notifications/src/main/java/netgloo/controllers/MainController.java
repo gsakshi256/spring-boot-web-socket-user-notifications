@@ -63,9 +63,21 @@ public class MainController {
 		// Send the notification to "UserA" (by username)
 		publisher.produceMsg(notification.getMessage());
 		String username = notification.getUser();
-		notificationService.notify(new Notification(notification.getMessage()), // notification object
-				username // username
-		);
+		if (web.UserList.contains(username)) {
+			System.out.println("if part " +publisher.ar);
+			//notification.setMessage(message);
+//			notificationService.notify(publisher.ar, // notification object
+//					username // username
+//					
+//			);
+			notificationService.notify(new Notification(notification.getMessage()), // notification object
+					username // username
+					
+			);
+		}
+		else {
+			System.out.println("user is offline ");
+		}
 		// subcriber.consumer();
 		// Return an http 200 status code
 		return new ResponseEntity<>(HttpStatus.OK);
